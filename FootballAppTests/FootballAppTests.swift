@@ -6,7 +6,7 @@
 //
 
 import XCTest
-@testable import FootballApp
+//@testable import FootballApp
 
 class FootballAppTests: XCTestCase {
 
