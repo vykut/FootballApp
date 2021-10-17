@@ -399,7 +399,7 @@
         "image": "https://cdn.jsdelivr.net/npm/country-flag-emoji-json@2.0.0/dist/images/CY.svg"
     },
     {
-        "name": "Czechia",
+        "name": "Czech Republic",
         "code": "CZ",
         "emoji": "🇨🇿",
         "unicode": "U+1F1E8 U+1F1FF",
@@ -693,7 +693,7 @@
         "image": "https://cdn.jsdelivr.net/npm/country-flag-emoji-json@2.0.0/dist/images/GY.svg"
     },
     {
-        "name": "Hong Kong SAR China",
+        "name": "Hong Kong",
         "code": "HK",
         "emoji": "🇭🇰",
         "unicode": "U+1F1ED U+1F1F0",

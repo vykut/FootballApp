@@ -12,13 +12,13 @@ extension PlayersAndTeamsViewModel {
         let name: String
         let city: String
         let stadium: String
-        let flagURL: URL?
+        let flag: String
 
-        init(team: Team, flagURL: URL? = nil) {
+        init(team: Team, flag: String?) {
             self.name = team.name
             self.city = team.city
             self.stadium = team.stadium
-            self.flagURL = flagURL
+            self.flag = flag ?? ""
         }
     }
 }

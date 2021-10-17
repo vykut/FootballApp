@@ -65,14 +65,17 @@ class PlayersAndTeamsViewModel: ObservableObject {
             return .startSearching
         }
 
-        if playersAndTeams?.isEmpty == true {
+        if players.isEmpty, teams.isEmpty {
             return .noResultsFound
         }
 
         return nil
     }
 
-    @Published var flags: [String: URL] = [:]
+    @Published var flags: [String: String] = [:]
+
+    @Published var shouldShowMorePlayersButton: Bool = false
+    @Published var shouldShowMoreTeamsButton: Bool = false
 
     private var searchTextCancellable: AnyCancellable?
     private var serviceCancellable: AnyCancellable?
@@ -92,7 +95,7 @@ class PlayersAndTeamsViewModel: ObservableObject {
     private func setUpSearchPublisher() {
         searchTextCancellable = $searchText
             .dropFirst() // drop the empty string the variable is initialised with
-            .debounce(for: 0.7, scheduler: RunLoop.main) // fetch the players and teams only if there have been at least 0.7 seconds between key presses
+            .debounce(for: 0.4, scheduler: RunLoop.main) // fetch the players and teams only if there have been at least 0.4 seconds between key presses
             .removeDuplicates() // do not repeat the request for the same searchText
             .sink { [weak self] text in
                 self?.fetchPlayersAndTeams(text: text)
@@ -115,6 +118,8 @@ extension PlayersAndTeamsViewModel {
             return playersAndTeams = nil
         }
 
+        shouldShowMorePlayersButton = false
+        shouldShowMoreTeamsButton = false
         networkState = .fetchingPlayersAndTeams
 
         serviceCancellable = repository.getPlayersAndTeams(searchText: text)
@@ -128,6 +133,16 @@ extension PlayersAndTeamsViewModel {
 
     private func received(playersAndTeams: PlayersAndTeams) {
         self.playersAndTeams = playersAndTeams
+
+        if !playersAndTeams.teams.isEmpty,
+            playersAndTeams.teams.count == 10 {
+            shouldShowMoreTeamsButton = true
+        }
+
+        if !playersAndTeams.players.isEmpty,
+           playersAndTeams.players.count == 10 {
+            shouldShowMorePlayersButton = true
+        }
     }
 
     private func fetchPlayers() {
@@ -144,6 +159,10 @@ extension PlayersAndTeamsViewModel {
 
     private func receivedPlayers(_ players: [Player]) {
         self.playersAndTeams?.players.append(contentsOf: players)
+
+        if players.count < 10 {
+            shouldShowMorePlayersButton = false
+        }
     }
 
     private func fetchTeams() {
@@ -160,10 +179,20 @@ extension PlayersAndTeamsViewModel {
 
     private func receivedTeams(_ teams: [Team]) {
         self.playersAndTeams?.teams.append(contentsOf: teams)
+
+        if teams.count < 10 {
+            shouldShowMoreTeamsButton = false
+        }
     }
 
     private func setUpFavouritePlayersPublisher() {
-        favouritesCancellable = repository.getFavouritePlayersIDs()
+        favouritesCancellable = $searchText
+            .debounce(for: 0.7, scheduler: RunLoop.main)
+            .filter { !$0.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty } // drop empty strings
+            .compactMap { [weak self] text in
+                self?.repository.getFavouritePlayersIDs(lookup: text)
+            }
+            .switchToLatest()
             .receive(on: RunLoop.main)
             .sink { _ in
                 

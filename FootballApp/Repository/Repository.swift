@@ -18,20 +18,26 @@ protocol RepositoryProtocol {
     func getPlayers(searchText: String, offset: Int) -> AnyPublisher<[Player], RepositoryError>
     func getTeams(searchText: String, offset: Int) -> AnyPublisher<[Team], RepositoryError>
 
-    func getFavouritePlayersIDs() -> AnyPublisher<Set<Player.ID>, RepositoryError>
     @discardableResult func addPlayerToFavourites(_ player: Player) -> Bool
     @discardableResult func removePlayerFromFavourites(_ player: Player) -> Bool
+    @discardableResult func removePlayersFromFavourites(_ players: [FavouritePlayer]) -> Bool
+    func getFavouritePlayersIDs(lookup: String) -> AnyPublisher<Set<Player.ID>, Never>
 
-    func getFlags() -> AnyPublisher<[String: URL], RepositoryError>
+    func getFlags() -> AnyPublisher<[String: String], RepositoryError>
 }
 
 class Repository: RepositoryProtocol {
     static let shared: Repository = .init()
 
     private let playersAndTeamsService: PlayersAndTeamsServiceProtocol
+    private let localStorage: LocalStorageServiceProtocol
 
-    private init(playersAndTeamsService: PlayersAndTeamsServiceProtocol = PlayersAndTeamsService.shared) {
+    private init(
+        playersAndTeamsService: PlayersAndTeamsServiceProtocol = PlayersAndTeamsService.shared,
+        localStorage: LocalStorageServiceProtocol = LocalStorageService.shared
+    ) {
         self.playersAndTeamsService = playersAndTeamsService
+        self.localStorage = localStorage
     }
 
     func getPlayersAndTeams(searchText: String) -> AnyPublisher<PlayersAndTeams, RepositoryError> {
@@ -71,22 +77,45 @@ class Repository: RepositoryProtocol {
             .eraseToAnyPublisher()
     }
 
-    func getFavouritePlayersIDs() -> AnyPublisher<Set<Player.ID>, RepositoryError> {
-        favouritePlayersIDs
-            .setFailureType(to: RepositoryError.self)
-            .eraseToAnyPublisher()
-    }
-
-    private let favouritePlayersIDs: CurrentValueSubject<Set<Player.ID>, Never> = .init([])
-
     @discardableResult
     func addPlayerToFavourites(_ player: Player) -> Bool {
-        favouritePlayersIDs.value.insert(player.id).inserted
+        let success = localStorage.addPlayerToFavourites(player)
+        if success {
+            favouritePlayersDidChange.send()
+        }
+        return success
     }
 
     @discardableResult
     func removePlayerFromFavourites(_ player: Player) -> Bool {
-        favouritePlayersIDs.value.remove(player.id) != nil
+        let success = localStorage.removePlayerFromFavourites(player)
+        if success {
+            favouritePlayersDidChange.send()
+        }
+        return success
+    }
+
+    @discardableResult
+    func removePlayersFromFavourites(_ players: [FavouritePlayer]) -> Bool {
+        let success = localStorage.removePlayersFromFavourites(players)
+        if success {
+            favouritePlayersDidChange.send()
+        }
+        return success
+    }
+
+    private var favouritePlayersDidChange: CurrentValueSubject<Void, Never> = .init(())
+
+    func getFavouritePlayersIDs(lookup: String) -> AnyPublisher<Set<Player.ID>, Never> {
+        favouritePlayersDidChange
+            .compactMap { [weak self] _ -> [FavouritePlayer]? in
+                self?.localStorage.lookupFavouritePlayers(lookup)
+            }
+            .map { favouritePlayers -> [Player.ID] in
+                favouritePlayers.compactMap(\.id)
+            }
+            .map(Set.init)
+            .eraseToAnyPublisher()
     }
 
     private func fetchPlayersAndTeams(request: PlayersAndTeamsRequest) -> AnyPublisher<PlayersAndTeams, RepositoryError> {
@@ -96,7 +125,7 @@ class Repository: RepositoryProtocol {
             .eraseToAnyPublisher()
     }
 
-    func getFlags() -> AnyPublisher<[String : URL], RepositoryError> {
+    func getFlags() -> AnyPublisher<[String : String], RepositoryError> {
         Just("Flags")
             .compactMap { fileName in
                 Bundle.main.url(forResource: fileName, withExtension: "json")
@@ -109,8 +138,8 @@ class Repository: RepositoryProtocol {
             }
             .mapError { .error($0) }
             .map { flags in
-                flags.reduce(into: [String: URL]()) { accumulator, flag in
-                    accumulator[flag.name] = flag.image
+                flags.reduce(into: [String: String]()) { accumulator, flag in
+                    accumulator[flag.name] = flag.emoji
                 }
             }
             .subscribe(on: Threads.flagsThread)

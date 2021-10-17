@@ -55,11 +55,13 @@ struct PlayersAndTeamsList: View {
                     .tint(isFavourite ? .red : .yellow)
                 }
         } footer: {
-            moreButton(
-                title: viewModel.morePlayersButtonTitle,
-                isLoading: viewModel.isMorePlayersButtonLoading,
-                action: viewModel.morePlayersButtonTapped
-            )
+            if viewModel.shouldShowMorePlayersButton {
+                moreButton(
+                    title: viewModel.morePlayersButtonTitle,
+                    isLoading: viewModel.isMorePlayersButtonLoading,
+                    action: viewModel.morePlayersButtonTapped
+                )
+            }
         }
     }
 
@@ -68,15 +70,17 @@ struct PlayersAndTeamsList: View {
             title: viewModel.teamsSectionTitle,
             items: viewModel.teams
         ) { team in
-            TeamCell(team: team, flagURL: viewModel.flags[team.nationality])
+            TeamCell(team: team, flag: viewModel.flags[team.nationality])
                 .id(team)
                 .padding(.vertical)
         } footer: {
-            moreButton(
-                title: viewModel.moreTeamsButtonTitle,
-                isLoading: viewModel.isMoreTeamsButtonLoading,
-                action: viewModel.moreTeamsButtonTapped
-            )
+            if viewModel.shouldShowMoreTeamsButton {
+                moreButton(
+                    title: viewModel.moreTeamsButtonTitle,
+                    isLoading: viewModel.isMoreTeamsButtonLoading,
+                    action: viewModel.moreTeamsButtonTapped
+                )
+            }
         }
     }
 

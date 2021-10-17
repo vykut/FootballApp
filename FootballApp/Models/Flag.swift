@@ -9,5 +9,5 @@ import Foundation
 
 struct Flag: Decodable {
     let name: String
-    let image: URL
+    let emoji: String
 }

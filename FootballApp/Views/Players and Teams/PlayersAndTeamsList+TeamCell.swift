@@ -12,8 +12,8 @@ extension PlayersAndTeamsList {
         let viewModel: PlayersAndTeamsViewModel.TeamCellViewModel
         let configuration: Configuration
 
-        init(team: Team, flagURL: URL? = nil, configuration: Configuration = .init()) {
-            self.viewModel = .init(team: team, flagURL: flagURL)
+        init(team: Team, flag: String? = nil, configuration: Configuration = .init()) {
+            self.viewModel = .init(team: team, flag: flag)
             self.configuration = configuration
         }
 
@@ -59,17 +59,8 @@ extension PlayersAndTeamsList {
         }
 
         var flag: some View {
-            AsyncImage(url: viewModel.flagURL) { phase in
-                if let image = phase.image {
-                    image
-                } else if phase.error != nil {
-                    Color.clear
-                } else {
-                    ProgressView()
-                        .progressViewStyle(.circular)
-                }
-            }
-            .frame(width: configuration.flagSize, height: configuration.flagSize)
+            Text(viewModel.flag)
+                .font(configuration.flagFont)
         }
     }
 }
@@ -82,6 +73,7 @@ extension PlayersAndTeamsList.TeamCell {
         var nameFont: Font = .title2
         var infoTitleFont: Font = .subheadline
         var infoTextFont: Font = .headline
+        var flagFont: Font = .title
     }
 }
 
