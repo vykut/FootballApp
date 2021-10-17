@@ -13,10 +13,6 @@ enum PlayersAndTeamsServiceError: Error {
     case network(Network.Error)
 }
 
-protocol PlayersAndTeamsServiceProtocol {
-    func fetchPlayersAndTeams(body: PlayersAndTeamsRequest) -> AnyPublisher<PlayersAndTeams.NetworkResponse, PlayersAndTeamsServiceError>
-}
-
 final class PlayersAndTeamsService: PlayersAndTeamsServiceProtocol {
     static private let baseURL: String = "https://trials.mtcmobile.co.uk/api/football/1.0/"
 

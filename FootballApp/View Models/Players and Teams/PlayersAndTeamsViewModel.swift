@@ -241,26 +241,6 @@ extension PlayersAndTeamsViewModel {
 
     private func getFavouritePlayers() {
         favouritesCancellable = repository.getAllFavouritePlayers()
-            /// map `FavouritePlayer` objects to `Player` objects
-            .map { favouritePlayers in
-                favouritePlayers.compactMap { favouritePlayer -> Player? in
-                    guard let id = favouritePlayer.id,
-                          let firstName = favouritePlayer.firstName,
-                          let secondName = favouritePlayer.secondName,
-                          let nationality = favouritePlayer.nationality,
-                          let age = favouritePlayer.age,
-                          let club = favouritePlayer.club else { return nil }
-
-                    return Player(
-                        id: id,
-                        firstName: firstName,
-                        secondName: secondName,
-                        nationality: nationality,
-                        age: age,
-                        club: club
-                    )
-                }
-            }
             .sink { [weak self] players in
                 self?.favouritePlayers = players
             }

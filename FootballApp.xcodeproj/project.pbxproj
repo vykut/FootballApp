@@ -10,10 +10,9 @@
 		C82139C5271B324200F1BD46 /* PlayersAndTeamsViewModel+PlayerCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C82139C4271B324200F1BD46 /* PlayersAndTeamsViewModel+PlayerCellViewModel.swift */; };
 		C82139C7271B326D00F1BD46 /* PlayersAndTeamsViewModel+TeamCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C82139C6271B326D00F1BD46 /* PlayersAndTeamsViewModel+TeamCellViewModel.swift */; };
 		C83C747E271B2D2000A886D5 /* PlayersAndTeamsList+TeamCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C83C747D271B2D2000A886D5 /* PlayersAndTeamsList+TeamCell.swift */; };
-		C88563BD271AD04F00FA70CC /* FootballAppApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = C88563BC271AD04F00FA70CC /* FootballAppApp.swift */; };
+		C88563BD271AD04F00FA70CC /* FootballApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = C88563BC271AD04F00FA70CC /* FootballApp.swift */; };
 		C88563C1271AD05000FA70CC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C88563C0271AD05000FA70CC /* Assets.xcassets */; };
 		C88563C4271AD05000FA70CC /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C88563C3271AD05000FA70CC /* Preview Assets.xcassets */; };
-		C88563CE271AD05000FA70CC /* FootballAppTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C88563CD271AD05000FA70CC /* FootballAppTests.swift */; };
 		C88563D8271AD05100FA70CC /* FootballAppUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C88563D7271AD05100FA70CC /* FootballAppUITests.swift */; };
 		C88563DA271AD05100FA70CC /* FootballAppUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C88563D9271AD05100FA70CC /* FootballAppUITestsLaunchTests.swift */; };
 		C88563EE271AD16000FA70CC /* PlayersAndTeamsList.swift in Sources */ = {isa = PBXBuildFile; fileRef = C88563ED271AD16000FA70CC /* PlayersAndTeamsList.swift */; };
@@ -38,6 +37,14 @@
 		C8BB70E9271C378A000830A2 /* Persistence.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8BB70E8271C378A000830A2 /* Persistence.swift */; };
 		C8BB70EC271C3A65000830A2 /* LocalStorageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8BB70EB271C3A65000830A2 /* LocalStorageService.swift */; };
 		C8BB70EE271C5FCD000830A2 /* FavouritePlayersList.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8BB70ED271C5FCD000830A2 /* FavouritePlayersList.swift */; };
+		C8BB70F1271CA57C000830A2 /* LocalStorageServiceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8BB70F0271CA57C000830A2 /* LocalStorageServiceProtocol.swift */; };
+		C8BB70F6271CA5EB000830A2 /* PlayersAndTeamsServiceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8BB70F5271CA5EB000830A2 /* PlayersAndTeamsServiceProtocol.swift */; };
+		C8BB70FA271CA658000830A2 /* RepositoryProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8BB70F9271CA658000830A2 /* RepositoryProtocol.swift */; };
+		C8BB70FE271CAFA7000830A2 /* MockRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8BB70FB271CA673000830A2 /* MockRepository.swift */; };
+		C8BB70FF271CB03A000830A2 /* MockPlayersAndTeamsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8BB70F7271CA60E000830A2 /* MockPlayersAndTeamsService.swift */; };
+		C8BB7100271CB047000830A2 /* MockLocalStorageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8BB70F2271CA5A7000830A2 /* MockLocalStorageService.swift */; };
+		C8BB7103271CB06D000830A2 /* RepositoryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8BB7102271CB06D000830A2 /* RepositoryTests.swift */; };
+		C8BB7105271CB083000830A2 /* PlayersAndTeamsViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8BB7104271CB083000830A2 /* PlayersAndTeamsViewModelTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -62,11 +69,10 @@
 		C82139C6271B326D00F1BD46 /* PlayersAndTeamsViewModel+TeamCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PlayersAndTeamsViewModel+TeamCellViewModel.swift"; sourceTree = "<group>"; };
 		C83C747D271B2D2000A886D5 /* PlayersAndTeamsList+TeamCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PlayersAndTeamsList+TeamCell.swift"; sourceTree = "<group>"; };
 		C88563B9271AD04F00FA70CC /* FootballApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FootballApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		C88563BC271AD04F00FA70CC /* FootballAppApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FootballAppApp.swift; sourceTree = "<group>"; };
+		C88563BC271AD04F00FA70CC /* FootballApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FootballApp.swift; sourceTree = "<group>"; };
 		C88563C0271AD05000FA70CC /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		C88563C3271AD05000FA70CC /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		C88563C9271AD05000FA70CC /* FootballAppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FootballAppTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		C88563CD271AD05000FA70CC /* FootballAppTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FootballAppTests.swift; sourceTree = "<group>"; };
 		C88563D3271AD05100FA70CC /* FootballAppUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FootballAppUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		C88563D7271AD05100FA70CC /* FootballAppUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FootballAppUITests.swift; sourceTree = "<group>"; };
 		C88563D9271AD05100FA70CC /* FootballAppUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FootballAppUITestsLaunchTests.swift; sourceTree = "<group>"; };
@@ -92,6 +98,14 @@
 		C8BB70E8271C378A000830A2 /* Persistence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Persistence.swift; sourceTree = "<group>"; };
 		C8BB70EB271C3A65000830A2 /* LocalStorageService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalStorageService.swift; sourceTree = "<group>"; };
 		C8BB70ED271C5FCD000830A2 /* FavouritePlayersList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavouritePlayersList.swift; sourceTree = "<group>"; };
+		C8BB70F0271CA57C000830A2 /* LocalStorageServiceProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalStorageServiceProtocol.swift; sourceTree = "<group>"; };
+		C8BB70F2271CA5A7000830A2 /* MockLocalStorageService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockLocalStorageService.swift; sourceTree = "<group>"; };
+		C8BB70F5271CA5EB000830A2 /* PlayersAndTeamsServiceProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayersAndTeamsServiceProtocol.swift; sourceTree = "<group>"; };
+		C8BB70F7271CA60E000830A2 /* MockPlayersAndTeamsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockPlayersAndTeamsService.swift; sourceTree = "<group>"; };
+		C8BB70F9271CA658000830A2 /* RepositoryProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RepositoryProtocol.swift; sourceTree = "<group>"; };
+		C8BB70FB271CA673000830A2 /* MockRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockRepository.swift; sourceTree = "<group>"; };
+		C8BB7102271CB06D000830A2 /* RepositoryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RepositoryTests.swift; sourceTree = "<group>"; };
+		C8BB7104271CB083000830A2 /* PlayersAndTeamsViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayersAndTeamsViewModelTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -142,16 +156,16 @@
 		C88563BB271AD04F00FA70CC /* FootballApp */ = {
 			isa = PBXGroup;
 			children = (
+				C88563E6271AD06400FA70CC /* App */,
+				C88563E9271AD09200FA70CC /* Repository */,
+				C88563EA271AD09D00FA70CC /* Services */,
+				C88563E7271AD06D00FA70CC /* Views */,
+				C88563E8271AD07D00FA70CC /* View Models */,
+				C88563F4271AED8500FA70CC /* Models */,
+				C8856401271AF2EC00FA70CC /* Network */,
 				C8BB70E4271C3638000830A2 /* Core Data */,
 				C885640B271AFB4100FA70CC /* Utilities */,
 				C885640A271AFA5400FA70CC /* Extensions */,
-				C8856401271AF2EC00FA70CC /* Network */,
-				C88563F4271AED8500FA70CC /* Models */,
-				C88563EA271AD09D00FA70CC /* Service */,
-				C88563E9271AD09200FA70CC /* Repository */,
-				C88563E8271AD07D00FA70CC /* View Models */,
-				C88563E7271AD06D00FA70CC /* Views */,
-				C88563E6271AD06400FA70CC /* App */,
 				C88563C0271AD05000FA70CC /* Assets.xcassets */,
 				C88563C2271AD05000FA70CC /* Preview Content */,
 			);
@@ -169,7 +183,8 @@
 		C88563CC271AD05000FA70CC /* FootballAppTests */ = {
 			isa = PBXGroup;
 			children = (
-				C88563CD271AD05000FA70CC /* FootballAppTests.swift */,
+				C8BB7101271CB054000830A2 /* Tests */,
+				C8BB70FD271CAF96000830A2 /* Mocks */,
 			);
 			path = FootballAppTests;
 			sourceTree = "<group>";
@@ -186,7 +201,7 @@
 		C88563E6271AD06400FA70CC /* App */ = {
 			isa = PBXGroup;
 			children = (
-				C88563BC271AD04F00FA70CC /* FootballAppApp.swift */,
+				C88563BC271AD04F00FA70CC /* FootballApp.swift */,
 			);
 			path = App;
 			sourceTree = "<group>";
@@ -211,17 +226,18 @@
 			isa = PBXGroup;
 			children = (
 				C885640E271AFBF000FA70CC /* Repository.swift */,
+				C8BB70F9271CA658000830A2 /* RepositoryProtocol.swift */,
 			);
 			path = Repository;
 			sourceTree = "<group>";
 		};
-		C88563EA271AD09D00FA70CC /* Service */ = {
+		C88563EA271AD09D00FA70CC /* Services */ = {
 			isa = PBXGroup;
 			children = (
-				C8BB70EB271C3A65000830A2 /* LocalStorageService.swift */,
-				C88563FD271AF13600FA70CC /* PlayersAndTeamsService.swift */,
+				C8BB70F4271CA5D8000830A2 /* Players And Teams Service */,
+				C8BB70EF271CA55E000830A2 /* Local Storage Service */,
 			);
-			path = Service;
+			path = Services;
 			sourceTree = "<group>";
 		};
 		C88563EC271AD14500FA70CC /* Players and Teams */ = {
@@ -293,6 +309,43 @@
 				C8BB70E8271C378A000830A2 /* Persistence.swift */,
 			);
 			path = "Core Data";
+			sourceTree = "<group>";
+		};
+		C8BB70EF271CA55E000830A2 /* Local Storage Service */ = {
+			isa = PBXGroup;
+			children = (
+				C8BB70EB271C3A65000830A2 /* LocalStorageService.swift */,
+				C8BB70F0271CA57C000830A2 /* LocalStorageServiceProtocol.swift */,
+			);
+			path = "Local Storage Service";
+			sourceTree = "<group>";
+		};
+		C8BB70F4271CA5D8000830A2 /* Players And Teams Service */ = {
+			isa = PBXGroup;
+			children = (
+				C88563FD271AF13600FA70CC /* PlayersAndTeamsService.swift */,
+				C8BB70F5271CA5EB000830A2 /* PlayersAndTeamsServiceProtocol.swift */,
+			);
+			path = "Players And Teams Service";
+			sourceTree = "<group>";
+		};
+		C8BB70FD271CAF96000830A2 /* Mocks */ = {
+			isa = PBXGroup;
+			children = (
+				C8BB70FB271CA673000830A2 /* MockRepository.swift */,
+				C8BB70F7271CA60E000830A2 /* MockPlayersAndTeamsService.swift */,
+				C8BB70F2271CA5A7000830A2 /* MockLocalStorageService.swift */,
+			);
+			path = Mocks;
+			sourceTree = "<group>";
+		};
+		C8BB7101271CB054000830A2 /* Tests */ = {
+			isa = PBXGroup;
+			children = (
+				C8BB7102271CB06D000830A2 /* RepositoryTests.swift */,
+				C8BB7104271CB083000830A2 /* PlayersAndTeamsViewModelTests.swift */,
+			);
+			path = Tests;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -431,10 +484,13 @@
 				C8856400271AF23200FA70CC /* PlayersAndTeamsRequest.swift in Sources */,
 				C82139C7271B326D00F1BD46 /* PlayersAndTeamsViewModel+TeamCellViewModel.swift in Sources */,
 				C8856411271B212100FA70CC /* PlayersAndTeamsList+PlayerCell.swift in Sources */,
-				C88563BD271AD04F00FA70CC /* FootballAppApp.swift in Sources */,
+				C8BB70FA271CA658000830A2 /* RepositoryProtocol.swift in Sources */,
+				C88563BD271AD04F00FA70CC /* FootballApp.swift in Sources */,
 				C8BB70E7271C3712000830A2 /* Football.xcdatamodeld in Sources */,
+				C8BB70F1271CA57C000830A2 /* LocalStorageServiceProtocol.swift in Sources */,
 				C83C747E271B2D2000A886D5 /* PlayersAndTeamsList+TeamCell.swift in Sources */,
 				C82139C5271B324200F1BD46 /* PlayersAndTeamsViewModel+PlayerCellViewModel.swift in Sources */,
+				C8BB70F6271CA5EB000830A2 /* PlayersAndTeamsServiceProtocol.swift in Sources */,
 				C88563FA271AEFE600FA70CC /* PlayersAndTeams.swift in Sources */,
 				C88563EE271AD16000FA70CC /* PlayersAndTeamsList.swift in Sources */,
 				C8856403271AF2FA00FA70CC /* Network.swift in Sources */,
@@ -458,7 +514,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C88563CE271AD05000FA70CC /* FootballAppTests.swift in Sources */,
+				C8BB70FE271CAFA7000830A2 /* MockRepository.swift in Sources */,
+				C8BB7105271CB083000830A2 /* PlayersAndTeamsViewModelTests.swift in Sources */,
+				C8BB70FF271CB03A000830A2 /* MockPlayersAndTeamsService.swift in Sources */,
+				C8BB7100271CB047000830A2 /* MockLocalStorageService.swift in Sources */,
+				C8BB7103271CB06D000830A2 /* RepositoryTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -676,7 +736,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 697BPDZP9Z;
 				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -701,7 +761,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 697BPDZP9Z;
 				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

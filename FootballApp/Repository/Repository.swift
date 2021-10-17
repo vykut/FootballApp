@@ -13,20 +13,6 @@ enum RepositoryError: Error {
     case error(Error)
 }
 
-/// a protocol oriented approach that let's us mock the Repository layer, for unit testing purposes
-protocol RepositoryProtocol {
-    func getPlayersAndTeams(searchText: String) -> AnyPublisher<PlayersAndTeams, RepositoryError>
-    func getPlayers(searchText: String, offset: Int) -> AnyPublisher<[Player], RepositoryError>
-    func getTeams(searchText: String, offset: Int) -> AnyPublisher<[Team], RepositoryError>
-
-    func addPlayerToFavourites(_ player: Player)
-    func removePlayerFromFavourites(_ player: Player)
-    func getFavouritePlayersIDs(lookup: String) -> AnyPublisher<Set<Player.ID>, Never>
-    func getAllFavouritePlayers() -> AnyPublisher<[FavouritePlayer], Never>
-
-    func getFlags() -> AnyPublisher<[String: String], RepositoryError>
-}
-
 /// The Repository layer provides a way of abstracting the data model in a way that the consumers will not be aware, nor care whether the data comes from the backend, from local storage or from runtime
 class Repository: RepositoryProtocol {
     static let shared: Repository = .init()
@@ -95,9 +81,28 @@ extension Repository {
         localStorageService.removePlayerFromFavourites(player)
     }
 
-    func getAllFavouritePlayers() -> AnyPublisher<[FavouritePlayer], Never> {
+    func getAllFavouritePlayers() -> AnyPublisher<[Player], Never> {
         localStorageService.getAllFavouritePlayers()
-            .compactMap { $0 }
+            /// map `FavouritePlayer` objects to `Player` objects
+            .map { favouritePlayers in
+                favouritePlayers.compactMap { favouritePlayer -> Player? in
+                    guard let id = favouritePlayer.id,
+                          let firstName = favouritePlayer.firstName,
+                          let secondName = favouritePlayer.secondName,
+                          let nationality = favouritePlayer.nationality,
+                          let age = favouritePlayer.age,
+                          let club = favouritePlayer.club else { return nil }
+
+                    return Player(
+                        id: id,
+                        firstName: firstName,
+                        secondName: secondName,
+                        nationality: nationality,
+                        age: age,
+                        club: club
+                    )
+                }
+            }
             .eraseToAnyPublisher()
     }
 
@@ -145,5 +150,18 @@ extension Repository {
             }
             .subscribe(on: Threads.flagsThread)
             .eraseToAnyPublisher()
+    }
+}
+
+// a Mock object to be used for unit testing
+extension Repository {
+    static func getMockRepository(
+        playersAndTeamsService: PlayersAndTeamsServiceProtocol,
+        localStorageService: LocalStorageServiceProtocol
+    ) -> Repository {
+        .init(
+            playersAndTeamsService: playersAndTeamsService,
+            localStorageService: localStorageService
+        )
     }
 }

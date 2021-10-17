@@ -10,13 +10,6 @@ import CoreData
 import Combine
 import os
 
-protocol LocalStorageServiceProtocol {
-    func addPlayerToFavourites(_ player: Player)
-    func removePlayerFromFavourites(_ player: Player)
-    func getAllFavouritePlayers() -> AnyPublisher<[FavouritePlayer], Never>
-    func lookupFavouritePlayers(_ lookup: String) -> AnyPublisher<[FavouritePlayer], Never>
-}
-
 class LocalStorageService: LocalStorageServiceProtocol {
     static let shared: LocalStorageService = .init()
 
@@ -34,6 +27,7 @@ class LocalStorageService: LocalStorageServiceProtocol {
 
     func removePlayerFromFavourites(_ player: Player) {
         searchForPlayers(id: player.id)
+            .first()
             .sink { [weak self] players in
                 players.forEach { self?.context.delete($0) }
                 self?.save()
@@ -43,6 +37,7 @@ class LocalStorageService: LocalStorageServiceProtocol {
 
     func addPlayerToFavourites(_ player: Player) {
         searchForPlayers(id: player.id)
+            .first()
             .map(\.first)
             .sink { [weak self] value in
                 if let favouritePlayer = value {
