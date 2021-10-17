@@ -10,4 +10,5 @@ import Foundation
 enum Threads {
     static let playersAndTeamsServiceThread: DispatchQueue = .init(label: "service-playersAndTeams", qos: .userInitiated)
     static let flagsThread: DispatchQueue = .init(label: "flags", qos: .utility)
+    static let localStorageServiceThread: DispatchQueue = .init(label: "service-localStorage", qos: .userInitiated)
 }

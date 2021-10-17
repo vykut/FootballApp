@@ -37,6 +37,7 @@
 		C8BB70E7271C3712000830A2 /* Football.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = C8BB70E5271C3712000830A2 /* Football.xcdatamodeld */; };
 		C8BB70E9271C378A000830A2 /* Persistence.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8BB70E8271C378A000830A2 /* Persistence.swift */; };
 		C8BB70EC271C3A65000830A2 /* LocalStorageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8BB70EB271C3A65000830A2 /* LocalStorageService.swift */; };
+		C8BB70EE271C5FCD000830A2 /* FavouritePlayersList.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8BB70ED271C5FCD000830A2 /* FavouritePlayersList.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -90,6 +91,7 @@
 		C8BB70E6271C3712000830A2 /* Football.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Football.xcdatamodel; sourceTree = "<group>"; };
 		C8BB70E8271C378A000830A2 /* Persistence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Persistence.swift; sourceTree = "<group>"; };
 		C8BB70EB271C3A65000830A2 /* LocalStorageService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalStorageService.swift; sourceTree = "<group>"; };
+		C8BB70ED271C5FCD000830A2 /* FavouritePlayersList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavouritePlayersList.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -140,7 +142,6 @@
 		C88563BB271AD04F00FA70CC /* FootballApp */ = {
 			isa = PBXGroup;
 			children = (
-				C8BB70EA271C3A55000830A2 /* Local Storage */,
 				C8BB70E4271C3638000830A2 /* Core Data */,
 				C885640B271AFB4100FA70CC /* Utilities */,
 				C885640A271AFA5400FA70CC /* Extensions */,
@@ -217,6 +218,7 @@
 		C88563EA271AD09D00FA70CC /* Service */ = {
 			isa = PBXGroup;
 			children = (
+				C8BB70EB271C3A65000830A2 /* LocalStorageService.swift */,
 				C88563FD271AF13600FA70CC /* PlayersAndTeamsService.swift */,
 			);
 			path = Service;
@@ -229,6 +231,7 @@
 				C88563EF271AD16F00FA70CC /* PlayersAndTeamsNavigation.swift */,
 				C8856410271B212100FA70CC /* PlayersAndTeamsList+PlayerCell.swift */,
 				C83C747D271B2D2000A886D5 /* PlayersAndTeamsList+TeamCell.swift */,
+				C8BB70ED271C5FCD000830A2 /* FavouritePlayersList.swift */,
 			);
 			path = "Players and Teams";
 			sourceTree = "<group>";
@@ -290,14 +293,6 @@
 				C8BB70E8271C378A000830A2 /* Persistence.swift */,
 			);
 			path = "Core Data";
-			sourceTree = "<group>";
-		};
-		C8BB70EA271C3A55000830A2 /* Local Storage */ = {
-			isa = PBXGroup;
-			children = (
-				C8BB70EB271C3A65000830A2 /* LocalStorageService.swift */,
-			);
-			path = "Local Storage";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -455,6 +450,7 @@
 				C8BB70EC271C3A65000830A2 /* LocalStorageService.swift in Sources */,
 				C8856407271AF7D500FA70CC /* Network+Error.swift in Sources */,
 				C88563FC271AF06100FA70CC /* PlayersAndTeamsSearchType.swift in Sources */,
+				C8BB70EE271C5FCD000830A2 /* FavouritePlayersList.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -13,33 +13,40 @@ enum RepositoryError: Error {
     case error(Error)
 }
 
+/// a protocol oriented approach that let's us mock the Repository layer, for unit testing purposes
 protocol RepositoryProtocol {
     func getPlayersAndTeams(searchText: String) -> AnyPublisher<PlayersAndTeams, RepositoryError>
     func getPlayers(searchText: String, offset: Int) -> AnyPublisher<[Player], RepositoryError>
     func getTeams(searchText: String, offset: Int) -> AnyPublisher<[Team], RepositoryError>
 
-    @discardableResult func addPlayerToFavourites(_ player: Player) -> Bool
-    @discardableResult func removePlayerFromFavourites(_ player: Player) -> Bool
-    @discardableResult func removePlayersFromFavourites(_ players: [FavouritePlayer]) -> Bool
+    func addPlayerToFavourites(_ player: Player)
+    func removePlayerFromFavourites(_ player: Player)
     func getFavouritePlayersIDs(lookup: String) -> AnyPublisher<Set<Player.ID>, Never>
+    func getAllFavouritePlayers() -> AnyPublisher<[FavouritePlayer], Never>
 
     func getFlags() -> AnyPublisher<[String: String], RepositoryError>
 }
 
+/// The Repository layer provides a way of abstracting the data model in a way that the consumers will not be aware, nor care whether the data comes from the backend, from local storage or from runtime
 class Repository: RepositoryProtocol {
     static let shared: Repository = .init()
 
     private let playersAndTeamsService: PlayersAndTeamsServiceProtocol
-    private let localStorage: LocalStorageServiceProtocol
+    private let localStorageService: LocalStorageServiceProtocol
 
+    /// inject dependencies through the initialiser
+    /// these dependencies can be mocked for unit testing purposes
     private init(
         playersAndTeamsService: PlayersAndTeamsServiceProtocol = PlayersAndTeamsService.shared,
-        localStorage: LocalStorageServiceProtocol = LocalStorageService.shared
+        localStorageService: LocalStorageServiceProtocol = LocalStorageService.shared
     ) {
         self.playersAndTeamsService = playersAndTeamsService
-        self.localStorage = localStorage
+        self.localStorageService = localStorageService
     }
+}
 
+// MARK: - Players And Teams Service
+extension Repository {
     func getPlayersAndTeams(searchText: String) -> AnyPublisher<PlayersAndTeams, RepositoryError> {
         let request: PlayersAndTeamsRequest = .init(
             searchString: searchText,
@@ -76,45 +83,36 @@ class Repository: RepositoryProtocol {
             .map(\.teams)
             .eraseToAnyPublisher()
     }
+}
 
-    @discardableResult
-    func addPlayerToFavourites(_ player: Player) -> Bool {
-        let success = localStorage.addPlayerToFavourites(player)
-        if success {
-            favouritePlayersDidChange.send()
-        }
-        return success
+// MARK: - Local Storage Service
+extension Repository {
+    func addPlayerToFavourites(_ player: Player) {
+        localStorageService.addPlayerToFavourites(player)
     }
 
-    @discardableResult
-    func removePlayerFromFavourites(_ player: Player) -> Bool {
-        let success = localStorage.removePlayerFromFavourites(player)
-        if success {
-            favouritePlayersDidChange.send()
-        }
-        return success
+    func removePlayerFromFavourites(_ player: Player) {
+        localStorageService.removePlayerFromFavourites(player)
     }
 
-    @discardableResult
-    func removePlayersFromFavourites(_ players: [FavouritePlayer]) -> Bool {
-        let success = localStorage.removePlayersFromFavourites(players)
-        if success {
-            favouritePlayersDidChange.send()
-        }
-        return success
+    func getAllFavouritePlayers() -> AnyPublisher<[FavouritePlayer], Never> {
+        localStorageService.getAllFavouritePlayers()
+            .compactMap { $0 }
+            .eraseToAnyPublisher()
     }
-
-    private var favouritePlayersDidChange: CurrentValueSubject<Void, Never> = .init(())
 
     func getFavouritePlayersIDs(lookup: String) -> AnyPublisher<Set<Player.ID>, Never> {
-        favouritePlayersDidChange
-            .compactMap { [weak self] _ -> [FavouritePlayer]? in
-                self?.localStorage.lookupFavouritePlayers(lookup)
-            }
+        guard !lookup.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else {
+            return Just([])
+                .eraseToAnyPublisher()
+        }
+
+        return localStorageService.lookupFavouritePlayers(lookup)
             .map { favouritePlayers -> [Player.ID] in
                 favouritePlayers.compactMap(\.id)
             }
             .map(Set.init)
+            .subscribe(on: Threads.localStorageServiceThread)
             .eraseToAnyPublisher()
     }
 
@@ -124,7 +122,10 @@ class Repository: RepositoryProtocol {
             .mapError { .playersAndTeamsService($0) }
             .eraseToAnyPublisher()
     }
+}
 
+// MARK: - Flags
+extension Repository {
     func getFlags() -> AnyPublisher<[String : String], RepositoryError> {
         Just("Flags")
             .compactMap { fileName in

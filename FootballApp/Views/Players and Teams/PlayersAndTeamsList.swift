@@ -25,36 +25,20 @@ struct PlayersAndTeamsList: View {
             }
         }
         .disabled(viewModel.isSearchInProgress)
-        .overlay {
-            listOverlay
-        }
+        .overlay { listOverlay }
         .searchable(
             text: $viewModel.searchText.animation(.easeInOut),
             prompt: viewModel.searchPlaceholder
         )
+        .lineLimit(1)
     }
 
     var playersList: some View {
         section(
             title: viewModel.playersSectionTitle,
-            items: viewModel.players
-        ) { player in
-            let isFavourite = viewModel.isFavourite(player)
-            PlayerCell(player: player, isFavourite: isFavourite)
-                .id(player)
-                .padding(.vertical)
-                .swipeActions {
-                    Button {
-                        withAnimation {
-                            viewModel.didSwipePlayerCell(player, isFavourite: isFavourite)
-                        }
-                    } label: {
-                        Image(systemName: "star.fill")
-                            .font(.title2)
-                    }
-                    .tint(isFavourite ? .red : .yellow)
-                }
-        } footer: {
+            items: viewModel.players,
+            cell: playerCell
+        ) {
             if viewModel.shouldShowMorePlayersButton {
                 moreButton(
                     title: viewModel.morePlayersButtonTitle,
@@ -65,15 +49,22 @@ struct PlayersAndTeamsList: View {
         }
     }
 
+    @ViewBuilder
+    func playerCell(_ player: Player) -> some View {
+        let isFavourite = viewModel.isFavourite(player)
+        PlayerCell(player: player, isFavourite: isFavourite) {
+            viewModel.didSwipePlayerCell(player, isFavourite: isFavourite)
+        }
+        .id(player)
+        .padding(.vertical)
+    }
+
     var teamsList: some View {
         section(
             title: viewModel.teamsSectionTitle,
-            items: viewModel.teams
-        ) { team in
-            TeamCell(team: team, flag: viewModel.flags[team.nationality])
-                .id(team)
-                .padding(.vertical)
-        } footer: {
+            items: viewModel.teams,
+            cell: teamCell
+        ) {
             if viewModel.shouldShowMoreTeamsButton {
                 moreButton(
                     title: viewModel.moreTeamsButtonTitle,
@@ -84,13 +75,19 @@ struct PlayersAndTeamsList: View {
         }
     }
 
+    func teamCell(_ team: Team) -> some View {
+        TeamCell(team: team, flag: viewModel.flags[team.nationality])
+            .id(team)
+            .padding(.vertical)
+    }
+
     @ViewBuilder
     var listOverlay: some View {
         switch viewModel.listOverlay {
-        case .fetchInProgress: spinner
-        case .startSearching:  startSearchingLabel
-        case .noResultsFound:  noResultsFound
-        case .none:            EmptyView()
+        case .spinner: spinner
+        case .startSearchingLabel: startSearchingLabel
+        case .noResultsFound:      noResultsFound
+        case .none:                EmptyView()
         }
     }
 
@@ -118,10 +115,9 @@ struct PlayersAndTeamsList: View {
         if !items.isEmpty {
             Section {
                 ForEach(items, content: cell)
+                footer()
             } header: {
                 Text(title)
-            } footer: {
-                footer()
             }
         }
     }

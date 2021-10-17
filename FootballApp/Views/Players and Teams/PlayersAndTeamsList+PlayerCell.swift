@@ -12,13 +12,17 @@ extension PlayersAndTeamsList {
         let viewModel: PlayersAndTeamsViewModel.PlayerCellViewModel
         let configuration: Configuration
 
+        let favouriteSwipeAction: () -> Void
+
         init(
             player: Player,
             isFavourite: Bool = false,
-            configuration: Configuration = .init()
+            configuration: Configuration = .init(),
+            favouriteSwipeAction: @escaping () -> Void = { }
         ) {
             self.viewModel = .init(player: player, isFavourite: isFavourite)
             self.configuration = configuration
+            self.favouriteSwipeAction = favouriteSwipeAction
         }
 
         var body: some View {
@@ -29,6 +33,18 @@ extension PlayersAndTeamsList {
             .frame(maxWidth: .infinity, alignment: .leading)
             .safeAreaInset(edge: .trailing) {
                 favouriteIcon
+                    .foregroundColor(viewModel.isFavourite ? .yellow : .clear)
+            }
+            .swipeActions {
+                Button {
+                    withAnimation {
+                        favouriteSwipeAction()
+                    }
+                } label: {
+                    favouriteIcon
+                        .foregroundColor(viewModel.isFavourite ? .yellow : .red)
+                }
+                .tint(viewModel.isFavourite ? .red : .yellow)
             }
         }
 
@@ -58,7 +74,6 @@ extension PlayersAndTeamsList {
         var favouriteIcon: some View {
             Image(systemName: configuration.favouriteIconName)
                 .font(configuration.favouriteIconFont)
-                .foregroundColor(viewModel.isFavourite ? .yellow : .clear)
         }
     }
 }

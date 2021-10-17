@@ -20,6 +20,36 @@ struct PlayersAndTeamsNavigation: View {
     var playersAndTeamsList: some View {
         PlayersAndTeamsList(viewModel: viewModel)
             .navigationTitle(viewModel.navigationTitle)
+            .toolbar {
+                favouritePlayersListButton
+            }
+            .alert(viewModel.networkErrorTitle, isPresented: $viewModel.isNetworkAlertErrorShown) {
+                Button("OK") { }
+            }
+            .sheet(isPresented: $viewModel.isFavouritePlayersListShown) {
+                withAnimation {
+                    viewModel.favouritePlayersListDismissed()
+                }
+            } content: {
+                favouritePlayersList
+            }
+    }
+
+    var favouritePlayersListButton: some ToolbarContent {
+        ToolbarItem(placement: .navigationBarTrailing) {
+            Button(viewModel.favouritePlayersListButton) {
+                withAnimation {
+                    viewModel.favouritesButtonTapped()
+                }
+            }
+        }
+    }
+
+    var favouritePlayersList: some View {
+        NavigationView {
+            FavouritePlayersList(viewModel: viewModel)
+                .navigationTitle(viewModel.favouritePlayersListTitle)
+        }
     }
 }
 
